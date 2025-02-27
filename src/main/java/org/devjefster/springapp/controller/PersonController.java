@@ -1,14 +1,19 @@
 package org.devjefster.springapp.controller;
 
+import jakarta.validation.Valid;
+import org.devjefster.springapp.controller.dto.CreatePersonDTO;
+import org.devjefster.springapp.controller.dto.UpdatePersonDTO;
 import org.devjefster.springapp.model.entities.Person;
 import org.devjefster.springapp.service.PersonService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
-
+@Validated
 @RestController
 @RequestMapping("/persons")
 public class PersonController {
@@ -23,10 +28,10 @@ public class PersonController {
     public ResponseEntity<Page<Person>> getAllPersonsPaged(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String email,
-            @RequestParam(required = false) Integer age,
+            @RequestParam(required = false) LocalDate dateOfBirth,
             Pageable pageable
     ) {
-        return ResponseEntity.ok(personService.getAllPersons(name, email, age, pageable));
+        return ResponseEntity.ok(personService.getAllPersons(name, email, dateOfBirth, pageable));
     }
 
 
@@ -43,13 +48,13 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<Person> createPerson(@RequestBody Person person) {
+    public ResponseEntity<Person> createPerson(@Valid @RequestBody CreatePersonDTO person) {
         return ResponseEntity.ok(personService.createPerson(person));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Person> updatePerson(@PathVariable Long id, @RequestBody Person person) {
-        return personService.updatePerson(id, person)
+    public ResponseEntity<Person> updatePerson(@PathVariable Long id, @Valid @RequestBody UpdatePersonDTO dto) {
+        return personService.updatePerson(id, dto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

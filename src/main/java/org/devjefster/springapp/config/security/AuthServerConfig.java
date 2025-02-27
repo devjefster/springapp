@@ -1,4 +1,4 @@
-package org.devjefster.springapp.config;
+package org.devjefster.springapp.config.security;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.gen.RSAKeyGenerator;

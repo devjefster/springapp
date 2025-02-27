@@ -1,4 +1,4 @@
-package org.devjefster.springapp.config;
+package org.devjefster.springapp.config.security;
 
 import org.devjefster.springapp.service.UserService;
 import org.springframework.context.annotation.Bean;

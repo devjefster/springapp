@@ -1,59 +1,46 @@
 package org.devjefster.springapp.model.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "persons")
+@Getter
 public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @Column(nullable = false)
     private String name;
-
+    @Setter
     @Column(unique = true, nullable = false)
     private String email;
-
+    @Setter
     @Column(nullable = false)
-    private int age;
+    private LocalDate dateOfBirth;
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "adult_id", nullable = false)
+    private Person adult;
+    @Setter
+    @OneToMany(mappedBy = "person")
+    private List<Address> address;
 
-    public Person(String name, String email, int age) {
+    public Person(String name, String email, LocalDate dateOfBirth) {
         this.name = name;
         this.email = email;
-        this.age = age;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public Person() {
 
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
 }

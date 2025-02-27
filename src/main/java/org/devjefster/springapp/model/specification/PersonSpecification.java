@@ -3,6 +3,8 @@ package org.devjefster.springapp.model.specification;
 import org.devjefster.springapp.model.entities.Person;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.time.LocalDate;
+
 public class PersonSpecification {
 
     public static Specification<Person> hasName(String name) {
@@ -15,8 +17,8 @@ public class PersonSpecification {
                 email == null ? null : criteriaBuilder.equal(root.get("email"), email);
     }
 
-    public static Specification<Person> hasAge(Integer age) {
+    public static Specification<Person> hasDateOfBirth(LocalDate dateOfBirth) {
         return (root, query, criteriaBuilder) ->
-                age == null ? null : criteriaBuilder.equal(root.get("age"), age);
+                dateOfBirth == null ? null : criteriaBuilder.equal(root.get("dateOfBirth"), dateOfBirth);
     }
 }
